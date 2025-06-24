@@ -19,6 +19,7 @@ function App() {
     },
   });
   const onSubmit = (data) => {
+    reset();
     console.log(data);
   };
   return (
