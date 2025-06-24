@@ -2,40 +2,30 @@ import { useState } from "react";
 
 import "./App.css";
 import { Button, Card, Container, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 function App() {
-  const [formData, setFormadata] = useState({
-    name: "",
-    date: "",
-    priority: "Basse",
-    isCompleted: false,
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      date: "",
+      priority: "Basse",
+      isCompleted: false,
+    },
   });
-
-  function handlechange(e) {
-    const { name, value, type, checked } = e.target;
-    setFormadata((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formData);
-  }
-
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <Container>
       <Card className="bg-blue">
-        <Form className="p-5" onSubmit={handleSubmit}>
+        <Form className="p-5" onSubmit={handleSubmit(onSubmit)}>
           <h1>Formulaire de tâche</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Nom</Form.Label>
             <Form.Control
               type="text"
-              name="name"
-              value={formData.name}
-              onChange={handlechange}
+              {...register("name")}
               placeholder="Entrer le nom de la tache"
             />
           </Form.Group>
@@ -44,9 +34,7 @@ function App() {
             <Form.Label>Date</Form.Label>
             <Form.Control
               type="date"
-              name="date"
-              value={formData.date}
-              onChange={handlechange}
+              {...register("date")}
               placeholder="date"
             />
           </Form.Group>
@@ -54,9 +42,7 @@ function App() {
             <Form.Label>Priorité</Form.Label>
             <Form.Select
               aria-label="Default select example"
-              value={formData.priority}
-              onChange={handlechange}
-              name="priority"
+              {...register("priority")}
             >
               <option value="Basse">Basse</option>
               <option value="Moyenne">Moyenne</option>
@@ -66,10 +52,8 @@ function App() {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check
               type="checkbox"
-              checked={formData.isCompleted}
-              onChange={handlechange}
+              {...register("isCompleted")}
               label="Completé"
-              name="isCompleted"
             />
           </Form.Group>
           <Button variant="primary" type="submit">
