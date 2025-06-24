@@ -32,7 +32,7 @@ function App() {
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Nom</Form.Label>
             <Form.Control
-              type="name"
+              type="text"
               name="name"
               value={formData.name}
               onChange={handlechange}
@@ -66,7 +66,7 @@ function App() {
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check
               type="checkbox"
-              value={formData.isCompleted}
+              checked={formData.isCompleted}
               onChange={handlechange}
               label="Completé"
               name="isCompleted"
