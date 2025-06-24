@@ -5,7 +5,12 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 function App() {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: "",
       date: "",
@@ -25,18 +30,24 @@ function App() {
             <Form.Label>Nom</Form.Label>
             <Form.Control
               type="text"
-              {...register("name")}
+              {...register("name", {
+                required: "Le nom de la tâche est requis",
+              })}
               placeholder="Entrer le nom de la tache"
             />
+            {errors.name && <p>{errors.name.message}</p>}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Date</Form.Label>
             <Form.Control
               type="date"
-              {...register("date")}
+              {...register("date", {
+                required: "La date de la tâche est requise",
+              })}
               placeholder="date"
             />
+            {errors.date && <p>{errors.date.message}</p>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Label>Priorité</Form.Label>
