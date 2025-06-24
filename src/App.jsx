@@ -46,7 +46,6 @@ function App() {
               {...register("date", {
                 required: "La date de la tâche est requise",
               })}
-              placeholder="date"
             />
             {errors.date && <p>{errors.date.message}</p>}
           </Form.Group>
