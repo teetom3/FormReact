@@ -17,8 +17,8 @@ function App() {
       date: "",
       priority: "Basse",
       isCompleted: false,
-      resolver: yupResolver(schema),
     },
+    resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
     console.log(data);
