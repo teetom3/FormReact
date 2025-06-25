@@ -17,6 +17,7 @@ function App() {
       date: "",
       priority: "Basse",
       isCompleted: false,
+      resolver: yupResolver(schema),
     },
   });
   const onSubmit = (data) => {
@@ -26,7 +27,7 @@ function App() {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(5, "doit comporter au moins 3 caractères")
+      .min(8, "doit comporter au moins 8 caractères")
       .max(15, "doit comporter maximum 15 caractères")
       .required("le nom est requis"),
     date: yup
@@ -36,14 +37,18 @@ function App() {
         "La date est invalide"
       )
       .transform((value) => {
-        const { d, m, y } = value.split("/");
-        return new Date(`${y}-${m}-${d}`);
+        const [d, m, y] = value.split("/");
+
+        const date = new Date(`${y}-${m}-${d}`);
+        date.setHours(0, 0, 0, 0);
+        return date;
       })
       .test(
         "test1",
         "la date doit être aujourd'hui ou plus tard",
         function (value) {
           const now = new Date();
+          now.setHours(0, 0, 0, 0);
           return value >= now;
         }
       ),
@@ -65,9 +70,7 @@ function App() {
             <Form.Label>Nom</Form.Label>
             <Form.Control
               type="text"
-              {...register("name", {
-                required: "Le nom de la tâche est requis",
-              })}
+              {...register("name")}
               placeholder="Entrer le nom de la tache"
             />
             <p>{errors.name?.message}</p>
@@ -75,12 +78,7 @@ function App() {
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Date</Form.Label>
-            <Form.Control
-              type="text"
-              {...register("date", {
-                required: "La date de la tâche est requise",
-              })}
-            />
+            <Form.Control type="text" {...register("date")} />
             <p>{errors.date?.message}</p>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
